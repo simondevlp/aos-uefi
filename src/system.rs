@@ -1,6 +1,10 @@
 use crate::{
-    Handle, boot::BootServices, config::ConfigTable, console::output::TextOutput,
-    runtime::RuntimeServices, table::TableHeader,
+    Handle,
+    boot::BootServices,
+    config::ConfigTable,
+    console::{input::SimpleTextInput, output::SimpleTextOutput},
+    runtime::RuntimeServices,
+    table::TableHeader,
 };
 
 #[repr(C)]
@@ -9,11 +13,11 @@ pub struct SystemTable {
     pub firmware_vendor: *const u16,
     pub firmware_revision: u32,
     pub cin_handle: Handle,
-    pub cin: usize,
+    pub cin: &'static SimpleTextInput,
     pub cout_handle: Handle,
-    pub cout: &'static TextOutput,
+    pub cout: &'static SimpleTextOutput,
     pub stderr_handle: Handle,
-    pub stderr: &'static TextOutput,
+    pub stderr: &'static SimpleTextOutput,
     pub runtime_srv: &'static RuntimeServices,
     pub boot_srv: &'static BootServices,
     pub num_tab_entries: usize,

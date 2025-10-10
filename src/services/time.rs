@@ -13,3 +13,10 @@ pub struct Time {
     pub daylight: u8,
     pad2: u8,
 }
+
+#[repr(C)]
+pub enum TimerDelay {
+    Cancel,
+    Periodic,
+    Relative,
+}

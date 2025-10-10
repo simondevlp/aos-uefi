@@ -14,23 +14,18 @@ pub struct BootServices {
     restore_tpl: extern "efiapi" fn(),
 
     // memory (correct UEFI specification order)
-    pub alloc_pages: extern "efiapi" fn(
-        r#type: AllocType,
-        mem_type: MemoryType,
-        pages: usize,
-        mem: &mut PhysicalAddress,
-    ) -> Status,
-    pub free_pages: extern "efiapi" fn(mem: PhysicalAddress, pages: usize) -> Status,
+    pub alloc_pages:
+        extern "efiapi" fn(AllocType, MemoryType, usize, &mut PhysicalAddress) -> Status,
+    pub free_pages: extern "efiapi" fn(&mut PhysicalAddress, usize) -> Status,
     pub get_mem_map: extern "efiapi" fn(
-        map_size: &mut usize,
-        map: &mut MemoryDescriptor,
-        map_key: &mut usize,
-        descriptor_size: &mut usize,
-        descriptor_version: &mut u32,
+        &mut usize,
+        &mut MemoryDescriptor,
+        &mut usize,
+        &mut usize,
+        &mut u32,
     ) -> Status,
-    pub alloc_pool:
-        extern "efiapi" fn(pool_type: MemoryType, size: usize, buffer: &mut usize) -> Status,
-    pub free_pool: extern "efiapi" fn(buffer: usize) -> Status,
+    pub alloc_pool: extern "efiapi" fn(MemoryType, usize, &mut usize) -> Status,
+    pub free_pool: extern "efiapi" fn(usize) -> Status,
 
     // event & timer
     create_event: extern "efiapi" fn(),
@@ -75,8 +70,7 @@ pub struct BootServices {
     // library
     protocols_per_handle: extern "efiapi" fn(),
     locate_handle_buf: extern "efiapi" fn(),
-    pub locate_protocol:
-        extern "efiapi" fn(protocol: &Guid, registration: usize, interface: &mut usize) -> Status,
+    pub locate_protocol: extern "efiapi" fn(&Guid, usize, &mut usize) -> Status,
     install_multiple_protocols: extern "efiapi" fn(),
     uninstall_multiple_protocols: extern "efiapi" fn(),
 
