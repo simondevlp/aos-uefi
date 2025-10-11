@@ -1,7 +1,7 @@
 use crate::{guid::Guid, services::time::Time};
 
 #[repr(transparent)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Default)]
 pub struct FileAttributes(pub u64);
 impl FileAttributes {
     pub const READ_ONLY: Self = Self(0x1);
@@ -33,6 +33,21 @@ impl FileInfo {
         0x11d2,
         [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
     );
+}
+
+impl Default for FileInfo {
+    fn default() -> Self {
+        Self {
+            size: Default::default(),
+            file_size: Default::default(),
+            phys_size: Default::default(),
+            create_time: Default::default(),
+            last_access_time: Default::default(),
+            mod_time: Default::default(),
+            attr: Default::default(),
+            file_name: [0u16; 256],
+        }
+    }
 }
 
 #[repr(C)]

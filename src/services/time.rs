@@ -1,5 +1,5 @@
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Default)]
 pub struct Time {
     pub year: u16,
     pub month: u8,

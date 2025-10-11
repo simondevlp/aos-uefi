@@ -1,7 +1,7 @@
 use core::fmt::Display;
 
 #[repr(transparent)]
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Clone, Copy)]
 pub struct Status(pub usize);
 
 impl Display for Status {
