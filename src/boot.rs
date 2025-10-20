@@ -1,6 +1,7 @@
 use crate::{
     guid::Guid,
     memory::{AllocType, MemoryType, PhysicalAddress, descriptor::MemoryDescriptor},
+    services::event::Event,
     status::Status,
     table::TableHeader,
 };
@@ -30,7 +31,7 @@ pub struct BootServices {
     // event & timer
     create_event: extern "efiapi" fn(),
     set_timer: extern "efiapi" fn(),
-    wait_for_event: extern "efiapi" fn(),
+    wait_for_event: extern "efiapi" fn(usize, *const Event, &mut usize),
     signal_event: extern "efiapi" fn(),
     close_event: extern "efiapi" fn(),
     check_event: extern "efiapi" fn(),
