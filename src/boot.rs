@@ -1,4 +1,5 @@
 use crate::{
+    Handle,
     guid::Guid,
     memory::{AllocType, MemoryType, PhysicalAddress, descriptor::MemoryDescriptor},
     services::event::Event,
@@ -18,13 +19,8 @@ pub struct BootServices {
     pub alloc_pages:
         extern "efiapi" fn(AllocType, MemoryType, usize, &mut PhysicalAddress) -> Status,
     pub free_pages: extern "efiapi" fn(&mut PhysicalAddress, usize) -> Status,
-    pub get_mem_map: extern "efiapi" fn(
-        &mut usize,
-        &mut MemoryDescriptor,
-        &mut usize,
-        &mut usize,
-        &mut u32,
-    ) -> Status,
+    pub get_mem_map:
+        extern "efiapi" fn(&mut usize, usize, &mut usize, &mut usize, &mut u32) -> Status,
     pub alloc_pool: extern "efiapi" fn(MemoryType, usize, &mut usize) -> Status,
     pub free_pool: extern "efiapi" fn(usize) -> Status,
 
@@ -52,7 +48,7 @@ pub struct BootServices {
     start_image: extern "efiapi" fn(),
     exit: extern "efiapi" fn(),
     unload_image: extern "efiapi" fn(),
-    exit_bootsrv: extern "efiapi" fn(),
+    pub exit_bootsrv: extern "efiapi" fn(Handle, usize) -> Status,
 
     // miscellaneous
     get_next_mono_count: extern "efiapi" fn(),

@@ -29,6 +29,7 @@ pub enum MemoryType {
     Max,
 }
 
+#[derive(Clone, Copy)]
 #[repr(transparent)]
 pub struct PhysicalAddress(pub u64);
 
