@@ -1,7 +1,7 @@
 use crate::{guid::Guid, status::Status};
 
 #[repr(C)]
-pub struct SimpleTextOutput {
+pub struct Protocol {
     pub reset: extern "efiapi" fn(this: &Self, extended_verification: bool) -> Status,
     pub output: extern "efiapi" fn(this: &Self, string: *const u16) -> Status,
     pub test: usize,
@@ -14,7 +14,7 @@ pub struct SimpleTextOutput {
     pub mode: &'static Mode,
 }
 
-impl SimpleTextOutput {
+impl Protocol {
     pub const GUID: Guid = Guid::new(
         0x387477c2,
         0x69c7,

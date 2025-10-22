@@ -1,4 +1,4 @@
-use crate::{guid::Guid, memory::PhysicalAddress, status::Status};
+use crate::{guid::Guid, memory, status::Status};
 
 pub mod blt;
 
@@ -47,12 +47,12 @@ pub struct Mode {
     pub mode: u32,
     pub info: &'static ModeInfo,
     pub info_size: usize,
-    pub base: PhysicalAddress,
+    pub base: memory::addr::Physical,
     pub size: usize,
 }
 
 #[repr(C)]
-pub struct GraphicsOutput {
+pub struct Protocol {
     pub query_mode: extern "C" fn(&Self, u32, &mut usize, &mut *mut u8) -> Status,
     pub set_mode: extern "C" fn(&Self, u32) -> Status,
     pub blt: extern "C" fn(
@@ -70,7 +70,7 @@ pub struct GraphicsOutput {
     pub mode: &'static Mode,
 }
 
-impl GraphicsOutput {
+impl Protocol {
     pub const GUID: Guid = Guid::new(
         0x9042A9DE,
         0x23DC,

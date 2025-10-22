@@ -1,9 +1,5 @@
 use crate::{
-    Handle,
-    guid::Guid,
-    memory::{AllocType, MemoryType, PhysicalAddress, descriptor::MemoryDescriptor},
-    services::event::Event,
-    status::Status,
+    Handle, devpath::Protocol, guid::Guid, memory, services::event::Event, status::Status,
     table::TableHeader,
 };
 
@@ -16,13 +12,17 @@ pub struct BootServices {
     restore_tpl: extern "efiapi" fn(),
 
     // memory (correct UEFI specification order)
-    pub alloc_pages:
-        extern "efiapi" fn(AllocType, MemoryType, usize, &mut PhysicalAddress) -> Status,
-    pub free_pages: extern "efiapi" fn(&mut PhysicalAddress, usize) -> Status,
+    pub alloc_pages: extern "efiapi" fn(
+        memory::alloc::Type,
+        memory::Type,
+        usize,
+        &mut memory::addr::Physical,
+    ) -> Status,
+    pub free_pages: extern "efiapi" fn(&mut memory::addr::Physical, usize) -> Status,
     pub get_mem_map:
-        extern "efiapi" fn(&mut usize, usize, &mut usize, &mut usize, &mut u32) -> Status,
-    pub alloc_pool: extern "efiapi" fn(MemoryType, usize, &mut usize) -> Status,
-    pub free_pool: extern "efiapi" fn(usize) -> Status,
+        extern "efiapi" fn(&mut usize, *const u8, &mut usize, &mut usize, &mut u32) -> Status,
+    pub alloc_pool: extern "efiapi" fn(memory::Type, usize, &mut *mut u8) -> Status,
+    pub free_pool: extern "efiapi" fn(*const u8) -> Status,
 
     // event & timer
     create_event: extern "efiapi" fn(),
@@ -44,10 +44,11 @@ pub struct BootServices {
     install_configtab: extern "efiapi" fn(),
 
     // image
-    load_image: extern "efiapi" fn(),
-    start_image: extern "efiapi" fn(),
-    exit: extern "efiapi" fn(),
-    unload_image: extern "efiapi" fn(),
+    pub load_image:
+        extern "efiapi" fn(bool, Handle, *mut Protocol, usize, usize, &mut Handle) -> Status,
+    pub start_image: extern "efiapi" fn(Handle, &mut usize, &mut *const u16) -> Status,
+    pub exit: extern "efiapi" fn(Handle, Status, usize, *const u16) -> Status,
+    pub unload_image: extern "efiapi" fn(Handle) -> Status,
     pub exit_bootsrv: extern "efiapi" fn(Handle, usize) -> Status,
 
     // miscellaneous

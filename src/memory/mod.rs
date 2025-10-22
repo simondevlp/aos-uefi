@@ -1,15 +1,10 @@
-pub mod descriptor;
+pub mod addr;
+pub mod alloc;
+mod descriptor;
+pub use descriptor::*;
 
 #[repr(C)]
-pub enum AllocType {
-    AnyPages,
-    MaxAddress,
-    Address,
-    Max,
-}
-
-#[repr(C)]
-pub enum MemoryType {
+pub enum Type {
     Reserved,
     LoaderCode,
     LoaderData,
@@ -28,10 +23,3 @@ pub enum MemoryType {
     Unaccepted,
     Max,
 }
-
-#[derive(Clone, Copy)]
-#[repr(transparent)]
-pub struct PhysicalAddress(pub u64);
-
-#[repr(transparent)]
-pub struct VirtualAddress(pub u64);

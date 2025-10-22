@@ -2,8 +2,8 @@ use crate::{guid::Guid, services::time::Time};
 
 #[repr(transparent)]
 #[derive(Clone, Copy, Default)]
-pub struct FileAttributes(pub u64);
-impl FileAttributes {
+pub struct Attributes(pub u64);
+impl Attributes {
     pub const READ_ONLY: Self = Self(0x1);
     pub const HIDDEN: Self = Self(0x2);
     pub const SYSTEM: Self = Self(0x4);
@@ -22,7 +22,7 @@ pub struct FileInfo {
     pub create_time: Time,
     pub last_access_time: Time,
     pub mod_time: Time,
-    pub attr: FileAttributes,
+    pub attr: Attributes,
     pub file_name: [u16; 256],
 }
 

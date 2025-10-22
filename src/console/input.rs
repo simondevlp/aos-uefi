@@ -1,13 +1,13 @@
 use crate::{console::key::InputKey, guid::Guid, services::event::Event, status::Status};
 
 #[repr(C)]
-pub struct SimpleTextInput {
+pub struct Protocol {
     pub reset: extern "efiapi" fn(&Self, bool) -> Status,
     pub read_key_stroke: extern "efiapi" fn(&Self, &mut InputKey) -> Status,
     pub wait_for_key: Event,
 }
 
-impl SimpleTextInput {
+impl Protocol {
     pub const GUID: Guid = Guid::new(
         0x387477c1,
         0x69c7,

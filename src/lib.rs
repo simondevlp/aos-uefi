@@ -3,6 +3,7 @@
 pub mod boot;
 pub mod config;
 pub mod console;
+pub mod devpath;
 pub mod fs;
 pub mod graphics;
 pub mod guid;

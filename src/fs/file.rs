@@ -1,4 +1,4 @@
-use crate::{fs::fileinfo::FileAttributes, guid::Guid, status::Status};
+use crate::{fs::fileinfo::Attributes, guid::Guid, status::Status};
 
 #[repr(transparent)]
 pub struct FileOpenMode(pub u64);
@@ -9,15 +9,10 @@ impl FileOpenMode {
 }
 
 #[repr(C)]
-pub struct File {
+pub struct Protocol {
     pub revision: u64,
-    pub open: extern "efiapi" fn(
-        &Self,
-        &mut *mut Self,
-        *const u16,
-        FileOpenMode,
-        FileAttributes,
-    ) -> Status,
+    pub open:
+        extern "efiapi" fn(&Self, &mut *mut Self, *const u16, FileOpenMode, Attributes) -> Status,
     pub close: extern "efiapi" fn(&Self) -> Status,
     pub delete: extern "efiapi" fn(&Self) -> Status,
     pub read: extern "efiapi" fn(&Self, &mut usize, *mut u8) -> Status,

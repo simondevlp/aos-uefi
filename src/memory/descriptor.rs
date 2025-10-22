@@ -1,18 +1,18 @@
-use crate::memory::{PhysicalAddress, VirtualAddress};
+use crate::memory;
 
 #[repr(C)]
-pub struct MemoryDescriptor {
+pub struct Descriptor {
     pub r#type: u32,
-    pub physical_start: PhysicalAddress,
-    pub virtual_start: VirtualAddress,
+    pub physical_start: memory::addr::Physical,
+    pub virtual_start: memory::addr::Virtual,
     pub num_pages: u64,
     pub attr: u64,
 }
 
 #[repr(transparent)]
-pub struct MemoryAttribute(u64);
+pub struct Attribute(u64);
 
-impl MemoryAttribute {
+impl Attribute {
     pub const UC: Self = Self(0x1);
     pub const WC: Self = Self(0x2);
     pub const WT: Self = Self(0x4);
